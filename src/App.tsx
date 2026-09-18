@@ -1,4 +1,3 @@
-import MovieCard from "./components/MovieCard"
 import SearchBar from "./components/SearchBar"
 import MovieList from "./components/MovieList";
 import { SAMPLE_MOVIES } from "./data/sampleMovies"

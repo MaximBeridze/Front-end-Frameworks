@@ -1,4 +1,3 @@
-import { div } from "motion/react-client"
 import type { Movie } from "../types"
 import MovieCard from "./MovieCard"
 
