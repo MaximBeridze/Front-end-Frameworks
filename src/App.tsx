@@ -1,4 +1,4 @@
-import MovieCard from "./components/movieCard"
+import MovieCard from "./components/MovieCard"
 import { SAMPLE_MOVIES } from "./data/sampleMovies"
 
 const App = () => {
@@ -9,7 +9,7 @@ const App = () => {
           <section>
             <div className="movies-grid">
               {SAMPLE_MOVIES.map((movie) => (
-                <MovieCard id={movie.id} title={movie.title} poster_path={movie.poster_path}/>
+                <MovieCard key={movie.id} movie={movie} />
               ))}
             </div>
           </section>
