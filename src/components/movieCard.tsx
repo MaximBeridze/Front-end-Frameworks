@@ -12,7 +12,7 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
   return(
   <article className="movie-card" tabIndex={0} aria-label="title here ...">
       <div className="poster-wrapper">
-        <img src={imagePath} alt={backdropPath} className="poster-img" loading="lazy"/>
+        <img src={imagePath} alt={`${movie.title} Poster`} className="poster-img" loading="lazy"/>
         <div className="poster-overlay">
           <div className="card-top-badges">
             <span className="rating-badge">
@@ -25,14 +25,14 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
               </svg>
             </button>
           </div>
-          <span className="quick-view-hint">{movie.overview}</span>
+          <span className="quick-view-hint">View Details</span>
         </div>
       </div>
       <div className="movie-card-info">
-        <h3 className="movie-card-title">{movie.title}</h3>
+        <h2 className="movie-card-title">{movie.title ?? 'No movie title available.'}</h2>
         <div className="movie-card-meta">
           <span>{movie.release_date ?? "----"}</span>
-          <span>{movie.vote_count}</span>
+          <span>{movie.vote_count ?? '---'}</span>
         </div>
         <div className="movie-genres-tags">
           {genreNames.map((name) => (
