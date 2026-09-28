@@ -24,11 +24,11 @@ import { describe, it, expect, vi } from 'vitest'
 
 // These imports will produce clear errors if the files are missing —
 // that error message tells you exactly which component to create next.
-import MovieCard from '../components/MovieCard'
-import MovieList from '../components/MovieList'
-import SearchBar from '../components/SearchBar'
-import App from '../App'
-import type { Movie } from '../types'
+import MovieCard from '../src/components/MovieCard'
+import MovieList from '../src/components/MovieList'
+import SearchBar from '../src/components/SearchBar'
+import App from '../src/App'
+import type { Movie } from '../src/types'
 
 // ── Shared test fixtures ──────────────────────────────────────────────────────
 
