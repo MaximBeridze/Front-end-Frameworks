@@ -3,6 +3,7 @@ import { SAMPLE_MOVIES } from "../data/sampleMovies"
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY
 const BASE_URL = import.meta.env.VITE_TMDB_BASE_URL
 
+
 export const movieService = {
   async fetchMovies({
     search = "",
@@ -10,6 +11,7 @@ export const movieService = {
     sort = "popularity",
     onlyFavorites = false,
     page = 1,
+    signal
   } = {}) {
     void genre
     void sort
@@ -47,6 +49,7 @@ export const movieService = {
 
     const response = await fetch(url, {
       method: "GET",
+      signal,
       headers: {
         accept: "application/json",
         Authorization: `Bearer ${API_KEY}`,

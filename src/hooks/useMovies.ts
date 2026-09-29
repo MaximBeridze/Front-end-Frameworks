@@ -2,7 +2,12 @@ import { useEffect, useState } from "react"
 import type { Movie } from "../types"
 
 const VITE_TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+/*const controller = new AbortController()
 
+movieService.fetchMovies({
+  signal: controller.signal,
+})
+*/
 export const useMovies = (url: string) => {
   const [movies, setMovies] = useState<Movie[]>([])
   const [loading, setLoading] = useState(true)
