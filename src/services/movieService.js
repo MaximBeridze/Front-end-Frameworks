@@ -11,7 +11,7 @@ export const movieService = {
     sort = "popularity",
     onlyFavorites = false,
     page = 1,
-    signal
+    signal = /** @type {AbortSignal | undefined} */ (undefined), //Temp solution - should change later
   } = {}) {
     void genre
     void sort

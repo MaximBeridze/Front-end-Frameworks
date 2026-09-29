@@ -1,34 +1,56 @@
+import { movieService } from "../services/movieService"
 import { useEffect, useState } from "react"
 import type { Movie } from "../types"
 
-const VITE_TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-/*const controller = new AbortController()
 
-movieService.fetchMovies({
-  signal: controller.signal,
-})
-*/
-export const useMovies = (url: string) => {
+export const useMovies = () => {
   const [movies, setMovies] = useState<Movie[]>([])
-  const [loading, setLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        Authorization:
-          `Bearer ${VITE_TMDB_API_KEY}`,
-      },
-    };
+    // 1. Create the controller for this effect.
+    const controller = new AbortController()
 
-    fetch(url, options)
-    .then((res) => res.json())
-    .then((data) => setMovies(data.results))
-    .catch((err) => setError(String(err)))
-    .finally(() => setLoading(false))
-})
+    // An effect itself cannot be async, so define an async function inside it.
+    const loadMovies = async () => {
+      setIsLoading(true)
+      setError(null)
 
-  return { movies, loading, error }
+      try {
+        // 2. Ask movieService for movies and supply the signal.
+        const data = await movieService.fetchMovies({
+          signal: controller.signal,
+        })
+
+        // 3. Put the returned movie array into state.
+        setMovies(data.results)
+      } catch (err) {
+        // 4. Cancellation is intentional, so don't display it as an error.
+        if (err instanceof DOMException && err.name === "AbortError") {
+          return
+        }
+
+        // 5. Store a readable error message.
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to load movies"
+        )
+      } finally {
+        // Avoid updating state after cancellation.
+        if (!controller.signal.aborted) {
+          setIsLoading(false)
+        }
+      }
+    }
+
+    // 6. Run the async function.
+    loadMovies()
+
+    // 7. Abort the request when the component/effect is cleaned up.
+    return () => controller.abort()
+  }, [])
+
+  return { movies, isLoading, error }
 }

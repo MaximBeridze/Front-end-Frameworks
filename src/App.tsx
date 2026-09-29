@@ -3,12 +3,11 @@ import MovieList from "./components/MovieList"
 import { useState } from 'react'
 import { useMovies } from "./hooks/useMovies"
 
-const apiUrl = `${import.meta.env.VITE_TMDB_BASE_URL}/movie/popular?language=en-US&page=1`
 
 const App = () => {
 
   const [query, setQuery] = useState("")
-  const { movies, loading, error } = useMovies(apiUrl);
+  const { movies, isLoading, error } = useMovies();
   const filteredMovies = movies.filter((m) =>
       m.title.toLowerCase().includes(query.toLowerCase()),
     );
@@ -20,9 +19,9 @@ const App = () => {
       </header>
       <main className="main-container">
           <h1>Movie App</h1>
-          {loading && <p>Loading...</p>}
+          {isLoading && <p>Loading...</p>}
           {error && <p>Something went wrong.</p>}
-          {!loading && !error && <MovieList movies={filteredMovies} />}
+          {!isLoading && !error && <MovieList movies={filteredMovies} />}
       </main>
     </div>
   );
