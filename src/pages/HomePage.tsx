@@ -4,17 +4,29 @@ import MovieList from "../components/MovieList"
 import { useMovies } from "../hooks/useMovies"
 
 const HomePage = () => {
-  // Move the query state from App here.
+    const [query, setQuery] = useState("")
+    const { movies, isLoading, error } = useMovies();
+    const filteredMovies = movies.filter((m) =>
+        m.title.toLowerCase().includes(query.toLowerCase()),
+    );
 
-  // Call useMovies here.
+    return (
+    <div className="app-layout">
+        <header className="site-header">
+        <SearchBar query={query} onChange={setQuery} />
+        </header>
 
-  // Move filteredMovies here.
+        <main className="main-container">
+        <h1>Movie App</h1>
 
-  return (
-    <main className="main-container">
-      {/* Move the search bar, heading, loading/error states,
-          and MovieList from App here. */}
-    </main>
+        {isLoading && <p>Loading...</p>}
+        {error && <p>Something went wrong.</p>}
+
+        {!isLoading && !error && (
+            <MovieList movies={filteredMovies} />
+        )}
+        </main>
+    </div>
   )
 }
 
