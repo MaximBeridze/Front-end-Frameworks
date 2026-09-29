@@ -2,6 +2,7 @@ import { useState } from "react"
 import SearchBar from "../components/SearchBar"
 import MovieList from "../components/MovieList"
 import { useMovies } from "../hooks/useMovies"
+import { NavLink } from "react-router-dom"
 
 const HomePage = () => {
     const [query, setQuery] = useState("")
@@ -13,7 +14,11 @@ const HomePage = () => {
     return (
     <div className="app-layout">
         <header className="site-header">
-        <SearchBar query={query} onChange={setQuery} />
+            <nav aria-label="Main navigation">
+                <NavLink to="/" end>Home</NavLink>
+                <NavLink to="/about">About</NavLink>
+            </nav>
+            <SearchBar query={query} onChange={setQuery} />
         </header>
 
         <main className="main-container">
