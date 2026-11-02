@@ -10,6 +10,8 @@ import StatsBanner from "../components/StatsBanner"
 import type { Movie } from "../types"
 import MovieModal from "../components/MovieModal"
 import ApiConfigModal from "../components/ApiConfigModal"
+import { pickRandomMovie } from "../utils/pickRandomMovie"
+import { Shuffle } from "lucide-react"
 
 const HomePage = () => {
     const [query, setQuery] = useState("")
@@ -66,6 +68,14 @@ const HomePage = () => {
         false
     )
 
+    function handleRandomPick() {
+        const movie = pickRandomMovie(sortedMovies)
+
+        if (movie) {
+            setSelectedMovie(movie)
+        }
+    }
+
     return (
         <div className="app-layout">
             <Header
@@ -76,6 +86,15 @@ const HomePage = () => {
                 onOpenApiConfig={() => setIsApiConfigOpen(true)} />
             <main className="main-container">
                 <FilterBar genre={genre} onGenreChange={setGenre} sort={sort} onSortChange={setSort} view={view} onViewChange={setView} />
+                <button
+                    type="button"
+                    className="btn-primary"
+                    onClick={handleRandomPick}
+                    disabled={sortedMovies.length === 0 || showLoading || Boolean(showError)}
+                >
+                    <Shuffle aria-hidden="true" />
+                    Pick for me
+                </button>
                 <StatsBanner
                     count={movieCount}
                     averageRating={averageRating}
