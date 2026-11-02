@@ -738,6 +738,46 @@ select {
   transform: scale(1) translateY(0);
 }
 
+.api-config-dialog {
+  max-width: 440px;
+  padding: 24px;
+  display: grid;
+  gap: 16px;
+}
+
+.api-config-dialog h2 {
+  padding-right: 44px;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.api-config-dialog label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.api-config-dialog input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font: inherit;
+}
+
+.api-config-dialog input:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+.api-config-dialog .btn-primary {
+  justify-content: center;
+}
+
 .modal-close-btn {
   position: absolute;
   top: 16px;

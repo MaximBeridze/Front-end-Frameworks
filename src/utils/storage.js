@@ -1,5 +1,5 @@
-const FAVORITES_KEY = "movie-app-favorites"
-const THEME_KEY = "movie-app-theme"
+const FAVORITES_KEY = "cinegrid_favorites"
+const THEME_KEY = "cinegrid_theme"
 const API_KEY = "movie-app-api-key"
 
 export function getFavorites() {
@@ -44,21 +44,14 @@ export function getTheme() {
 }
 
 export function setTheme(theme) {
-  // 1. Store the theme using THEME_KEY.
   localStorage.setItem(THEME_KEY, theme)
-
-  // 2. Select the root <html> element.
   const root = document.documentElement
-
-  // 3. Set its data-theme attribute to the supplied theme.
   root.setAttribute("data-theme", theme)
 }
 
 export function getApiKey() {
   try {
     const savedKey = localStorage.getItem(API_KEY)
-
-    // 2. Return the saved key, or an empty string if it is null.
     return savedKey ?? ""
   } catch {
     return ""
@@ -70,4 +63,11 @@ export function setApiKey(key) {
     const trimmedKey = key.trim()
 
     localStorage.setItem(API_KEY, trimmedKey)
+}
+
+export function setFavorites(favorites) {
+  localStorage.setItem(
+    FAVORITES_KEY,
+    JSON.stringify(favorites)
+  )
 }

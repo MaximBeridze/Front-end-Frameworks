@@ -1,27 +1,38 @@
-import type {Movie} from "../types"
+import type { Movie } from "../types"
 import { getGenreNames } from '../data/genres'
 import { TMDB_IMAGE_BASE } from '../data/sampleMovies'
-import { useState } from 'react'
+import { useAppContext } from "../context/AppContext"
+import { Heart, Star } from "lucide-react"
 
+type MovieCardProps = {
+  movie: Movie
+  onOpen?: (movie: Movie) => void
+}
 
-const MovieCard = ({ movie }: { movie: Movie }) => {  
+const MovieCard = ({ movie, onOpen }: MovieCardProps) => {
   const genreNames = getGenreNames(movie.genre_ids)
   const imagePath = TMDB_IMAGE_BASE + movie.poster_path
-  const [isFav, setIsFav] = useState(false)
-  return(
-  <article className="movie-card" tabIndex={0} aria-label="title here ...">
+  const { isFavorite, toggleFavorite } = useAppContext()
+  const isFav = isFavorite(movie.id)
+  return (
+    <article className="movie-card" tabIndex={0} onClick={() => onOpen?.(movie)} aria-label={`View details for ${movie.title}`}
+      onKeyDown={(event) => {
+        if (event.target !== event.currentTarget) return
+
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault()
+          onOpen?.(movie)
+        }
+      }}>
       <div className="poster-wrapper">
-        <img src={imagePath} alt={`${movie.title} Poster`} className="poster-img" loading="lazy"/>
+        <img src={imagePath} alt={`${movie.title} Poster`} className="poster-img" loading="lazy" />
         <div className="poster-overlay">
           <div className="card-top-badges">
             <span className="rating-badge">
-              <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-              {movie.vote_average?.toFixed(1) ?? "--"}
+              <Star aria-hidden="true" fill="currentColor" />
             </span>
-            <button className={isFav ? "favorite-btn is-favorite" : "favorite-btn"} aria-label={isFav ? "Remove from favourites" : "Add to favourites"} onClick= {() => setIsFav(previous => !previous)}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.78-8.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-              </svg>
+            <button className={isFav ? "favorite-btn is-favorite" : "favorite-btn"} aria-label={isFav ? "Remove from favourites" : "Add to favourites"} onClick={(event) => { event.stopPropagation(); toggleFavorite(movie) }}>
+              <Heart aria-hidden="true" size={16} />
             </button>
           </div>
           <span className="quick-view-hint">View Details</span>
